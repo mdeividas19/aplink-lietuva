@@ -5,39 +5,14 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-medium mb-4">Sveiki atvykę į Aplink Lietuvą!</h3>
                     <ul class="space-y-2">
+                    @foreach($cities as $city)
                         <li>
-                            <a href="{{ route('city.show', 'vilnius') }}" 
-                               class="text-blue-600 dark:text-blue-400 hover:underline">
-                                Vilnius
-                            </a>
+                            <a href="{{ route('cities.show', $city->id) }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{$city->name}}</a>
                         </li>
-                        <li>
-                            <a href="{{ route('city.show', 'kaunas') }}" 
-                               class="text-blue-600 dark:text-blue-400 hover:underline">
-                                Kaunas
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('city.show', 'klaipeda') }}" 
-                               class="text-blue-600 dark:text-blue-400 hover:underline">
-                                Klaipėda
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('city.show', 'siauliai') }}" 
-                               class="text-blue-600 dark:text-blue-400 hover:underline">
-                                Šiauliai
-                            </a>
-                        </li>
-                                                <li>
-                            <a href="{{ route('city.show', 'panevezys') }}" 
-                               class="text-blue-600 dark:text-blue-400 hover:underline">
-                                Panevėžys
-                            </a>
-                        </li>
+                    @endforeach
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>'
+</x-app-layout>

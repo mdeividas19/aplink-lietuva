@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CityController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('main');
-})->name('main');
+Route::get('/', [CityController::class, 'index'])->name('main');
 
 Route::get('/about', function () {
     return view('about');
@@ -19,9 +18,7 @@ Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
 
-Route::get('/city/{id}', function ($id) {
-    return view('city.show', ['cityName' => ucfirst($id)]);
-})->name('city.show');
+Route::get('/cities/{id}', [CityController::class, 'show'])->name('cities.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
