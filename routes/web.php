@@ -11,6 +11,18 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/stories', function () {
+    return view('stories');
+})->name('stories');
+
+Route::get('/contacts', function () {
+    return view('contacts');
+})->name('contacts');
+
+Route::get('/city/{id}', function ($id) {
+    return view('city.show', ['cityName' => ucfirst($id)]);
+})->name('city.show');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

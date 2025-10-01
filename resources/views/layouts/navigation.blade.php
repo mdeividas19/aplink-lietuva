@@ -22,6 +22,19 @@
                         {{ __('Apie') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('contacts')" :active="request()->routeIs('contacts')">
+                        {{ __('Kontaktai') }}
+                    </x-nav-link>
+                </div>
+
+                                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('stories')" :active="request()->routeIs('stories')">
+                        {{ __('Istorijos') }}
+                    </x-nav-link>
+                </div>
+
             </div>
 
             <!-- Settings Dropdown -->
