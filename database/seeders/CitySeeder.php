@@ -12,12 +12,16 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
+        City::truncate();
+        
         City::create([
             'name' => 'Vilnius',
             'description' => 'Vilnius – miestas, Lietuvos sostinė. Vilniaus apskrities, Vilniaus rajono savivaldybės ir Vilniaus miesto savivaldybės centras, yra 20 seniūnijų. Arkivyskupijos centras, nuo 1579 m. – universitetinis miestas. Sostinėje veikia aukščiausios valdžios institucijos – Lietuvos Respublikos prezidentūra, Lietuvos Seimas, Lietuvos Vyriausybė, ministerijos, Lietuvos Aukščiausiasis ir Konstitucinis teismai, užsienio valstybių ambasados ir atstovybės, diplomatinės misijos, tarptautinių organizacijų atstovybės.',
             'image_1' => 'vilnius1.jpg',
             'image_2' => 'vilnius2.jpg',
             'image_3' => 'vilnius3.jpg',
+            'latitude' => 54.687157,
+            'longitude' => 25.279652,
         ]);
 
         City::create([
@@ -26,6 +30,8 @@ class CitySeeder extends Seeder
             'image_1' => 'kaunas1.jpg',
             'image_2' => 'kaunas2.jpg',
             'image_3' => 'kaunas3.jpg',
+            'latitude' => 54.896870,
+            'longitude' => 23.892429,
         ]);
 
         City::create([
@@ -34,6 +40,8 @@ class CitySeeder extends Seeder
             'image_1' => 'klaipeda1.jpg',
             'image_2' => 'klaipeda2.jpg',
             'image_3' => 'klaipeda3.jpg',
+            'latitude' => 55.710800,
+            'longitude' => 21.131809,
         ]);
 
         City::create([
@@ -42,6 +50,8 @@ class CitySeeder extends Seeder
             'image_1' => 'siauliai1.jpg',
             'image_2' => 'siauliai2.jpg',
             'image_3' => 'siauliai3.jpg',
+            'latitude' => 55.932079,
+            'longitude' => 23.314220,
         ]);
 
         City::create([
@@ -50,6 +60,8 @@ class CitySeeder extends Seeder
             'image_1' => 'panevezys1.jpg',
             'image_2' => 'panevezys2.jpg',
             'image_3' => 'panevezys3.jpg',
+            'latitude' => 55.737438,
+            'longitude' => 24.370331,
         ]);
     }
 }
