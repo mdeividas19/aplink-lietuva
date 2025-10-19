@@ -9,10 +9,11 @@ class Story extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'title', 'body'];
+    protected $fillable = ['user_id', 'title', 'body', 'cover_image_path'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+    public function user() { return $this->belongsTo(User::class); }
+
+    public function images() {
+        return $this->hasMany(StoryImage::class)->orderBy('order');
     }
 }

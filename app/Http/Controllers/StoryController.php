@@ -29,11 +29,31 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        $story = Story::create([
-            'user_id' => $request->user()->id,
-            'title'   => $request->input('title'),
-            'body'    => $request->input('body'),
+        $data = $request->validate([
+            'title'   => ['required','string','max:140'],
+            'body'    => ['required','string'],
+            'cover'   => ['nullable','image','max:8192'],        // 8MB
+            'gallery.*' => ['nullable','image','max:8192'],
         ]);
+
+        $coverPath = null;
+        if ($request->hasFile('cover')) {
+            $coverPath = $request->file('cover')->store('stories/covers', 'public');
+        }
+
+        $story = Story::create([
+            'user_id'          => $request->user()->id,
+            'title'            => $data['title'],
+            'body'             => $data['body'],
+            'cover_image_path' => $coverPath,
+        ]);
+
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $i => $file) {
+                $path = $file->store('stories/gallery', 'public');
+                $story->images()->create(['path' => $path, 'order' => $i]);
+            }
+        }
 
         return redirect()->route('stories.show', $story);
     }
@@ -59,12 +79,29 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
-        $story->update([
-            'title'   => $request->input('title'),
-            'body'    => $request->input('body'),
+        $data = $request->validate([
+            'title'   => ['required','string','max:140'],
+            'body'    => ['required','string'],
+            'cover'   => ['nullable','image','max:8192'],
+            'gallery.*' => ['nullable','image','max:8192'],
         ]);
 
-        return redirect()->route('stories.show',$story);
+        if ($request->hasFile('cover')) {
+            $story->cover_image_path = $request->file('cover')->store('stories/covers', 'public');
+        }
+
+        $story->title = $data['title'];
+        $story->body  = $data['body'];
+        $story->save();
+
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $i => $file) {
+                $path = $file->store('stories/gallery', 'public');
+                $story->images()->create(['path' => $path, 'order' => $i]);
+            }
+        }
+
+        return redirect()->route('stories.show', $story);
     }
 
     /**

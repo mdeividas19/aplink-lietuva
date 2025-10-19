@@ -1,41 +1,49 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-medium">Istorijos</h3>
-                        @auth
-                            <a href="{{ route('stories.create') }}"
-                               class="px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                                Nauja istorija
-                            </a>
-                        @endauth
-                    </div>
+<x-stories-layout>
+  <div class="space-y-8">
+    @if($stories->isEmpty())
+      <p class="text-stone-600 text-sm">Nėra istorijų.</p>
+    @else
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach($stories as $story)
+          <a href="{{ route('stories.show', $story) }}" class="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-200">
+            @if(!empty($story->cover_image_path))
+              @php
+                  $path = ltrim($story->cover_image_path, '/');
+                  $coverUrl = Str::startsWith($path, 'demo/')
+                      ? asset($path)  // served from /public/demo/... (seedinimui)
+                      : asset('storage/'.$path);
+              @endphp
+              <img
+                  src="{{ $coverUrl }}"
+                  alt="Viršelio nuotrauka"
+                  class="w-full aspect-[16/10] object-cover"
+              >
+            @else
+              <div class="w-full aspect-[16/10] bg-stone-200 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    class="w-10 h-10 opacity-40">
+                  <path fill="currentColor" d="M4 7h3l1.2-2h7.6L17 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+                </svg>
+              </div>
+            @endif
 
-                    @if($stories->isEmpty())
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Dar nėra istorijų.</p>
-                    @else
-                        <ul class="space-y-3">
-                            @foreach($stories as $story)
-                                <li class="border dark:border-gray-700 rounded-md p-3">
-                                    <a href="{{ route('stories.show', $story) }}"
-                                       class="font-medium text-blue-600 dark:text-blue-400 hover:underline">
-                                        {{ $story->title }}
-                                    </a>
-                                    <div class="text-xs text-gray-500 mt-1">
-                                        {{ optional($story->user)->name ?? 'Autorius' }} · {{ $story->created_at->format('Y-m-d') }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+            <div class="p-4">
+              <h3 class="font-serif text-xl font-semibold group-hover:underline">
+                {{ $story->title }}
+              </h3>
 
-                        <div class="mt-6">
-                            {{ method_exists($stories,'links') ? $stories->links() : '' }}
-                        </div>
-                    @endif
-                </div>
+              <p class="mt-2 text-sm text-stone-600 line-clamp-2">
+                {{ $story->excerpt ?? Str::limit(strip_tags($story->body), 120) }}
+              </p>
+
+              <div class="mt-3 text-xs text-stone-500 flex justify-between">
+                <span>{{ optional($story->user)->name ?? 'Autorius' }}</span>
+                <span>{{ $story->created_at->format('Y-m-d') }}</span>
+              </div>
             </div>
-        </div>
-    </div>
-</x-app-layout>
+          </a>
+        @endforeach
+      </div>
+    @endif
+  </div>
+</x-stories-layout>
