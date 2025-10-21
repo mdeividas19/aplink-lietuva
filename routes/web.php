@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\LocationsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CityController::class, 'index'])->name('main');
@@ -16,6 +17,9 @@ Route::resource('stories', StoryController::class);
 Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
+
+Route::get('/locations', [LocationsController::class, 'index'])->name('locations.index');
+Route::get('/locations/{id}', [LocationsController::class, 'show'])->name('locations.show');
 
 Route::get('/cities/{id}', [CityController::class, 'show'])->name('cities.show');
 

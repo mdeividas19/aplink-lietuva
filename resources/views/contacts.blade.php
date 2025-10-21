@@ -4,7 +4,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class= "text-center text-lg font-medium mb-3">Sveiki atvykę į kontaktų puslapį!</h3>
+                    <h1 class="text-3xl text-center font-medium mb-2">Sveiki atvykę į kontaktų puslapį!</h1>
                 </div>
 
                 <hr style="border: 2px solid white;">
