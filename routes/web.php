@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\adminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CityController::class, 'index'])->name('main');
@@ -32,5 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/admin', [adminController::class, 'index'])->middleware(['auth:admin'])->name('admin.dashboard');
 
 require __DIR__.'/auth.php';
