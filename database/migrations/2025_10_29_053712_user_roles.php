@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
 	    Schema::table('users', function (Blueprint $table) {
-	        $table->tinyInteger('role');
-	    })->default('0'); //0 paprastas useris, 1 verified, 2 admin, 3 superadmin 
+	        $table->tinyInteger('role')->default('0'); // 0 paprastas useris, 1 verified, 2 admin, 3 superadmin
+	    });
     }
 
     /**
