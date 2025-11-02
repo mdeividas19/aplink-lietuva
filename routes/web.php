@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StoryCommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\StoryController;
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::post('/stories/{story}/comments', [StoryCommentController::class, 'store'])->name('stories.comments.store');
+    Route::patch('/comments/{comment}', [StoryCommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [StoryCommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 Route::get('/admin', [adminController::class, 'index'])->name('admin.dashboard');
