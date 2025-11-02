@@ -12,7 +12,7 @@ class StoryController extends Controller
      */
     public function index()
     {
-        $stories = Story::latest()->get();
+        $stories = Story::withCount('comments')->latest()->get();
         return view('stories.index', compact('stories'));
     }
 
@@ -63,7 +63,17 @@ class StoryController extends Controller
      */
     public function show(Story $story)
     {
-        return view('stories.show', compact('story'));
+        $comments = $story->comments()
+            ->with([
+                'user',
+                'children.user',
+                'children.children.user',
+            ])->whereNull('parent_id')->paginate(10);
+
+        return view('stories.show', [
+            'story'    => $story->load(['user','images']),
+            'comments' => $comments,
+        ]);
     }
 
     /**

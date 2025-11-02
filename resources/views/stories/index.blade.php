@@ -36,10 +36,18 @@
                 {{ $story->excerpt ?? Str::limit(strip_tags($story->body), 120) }}
               </p>
 
-              <div class="mt-3 text-xs text-stone-500 flex justify-between">
+              <div class="mt-3 text-xs text-stone-500 flex justify-between items-center">
                 <span>{{ optional($story->user)->name ?? 'Autorius' }}</span>
-                <span>{{ $story->created_at->format('Y-m-d') }}</span>
-              </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m5 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"/>
+                        </svg>
+                        {{ $story->comments_count }}
+                    </span>
+                    <span>{{ $story->created_at->format('Y-m-d') }}</span>
+                </div>
             </div>
           </a>
         @endforeach

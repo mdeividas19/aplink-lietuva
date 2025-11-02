@@ -16,4 +16,8 @@ class Story extends Model
     public function images() {
         return $this->hasMany(StoryImage::class)->orderBy('order');
     }
+
+    public function comments() {
+        return $this->hasMany(\App\Models\Comment::class)->latest();
+    }
 }

@@ -33,8 +33,6 @@
         @endif
 
         <div class="mt-8 flex items-center gap-3">
-            <a href="{{ route('stories.index') }}" class="text-sm text-stone-600 hover:underline">Atgal</a>
-
             @if(auth()->id() === $story->user_id)
                 <a href="{{ route('stories.edit', $story) }}" class="px-3 py-2 text-sm rounded-md border border-stone-300">Redaguoti</a>
 
@@ -44,5 +42,28 @@
                 </form>
             @endif
         </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto mt-12" id="comments">
+        <h2 class="text-xl font-serif font-semibold mb-4">Komentarai</h2>
+
+        @auth
+            <form method="POST" action="{{ route('stories.comments.store', $story) }}" class="mb-4 space-y-2">
+                @csrf
+                <textarea name="body" rows="3" class="w-full rounded-lg border p-2"
+                        placeholder="Parašykite komentarą..." required>{{ old('body') }}</textarea>
+                <div class="flex justify-end">
+                    <button class="rounded-lg bg-stone-900 text-white px-3 py-1.5 text-sm">Siųsti</button>
+                </div>
+            </form>
+        @else
+            <div class="mb-6 rounded-xl border p-3 text-sm text-stone-600">
+                Prisijunkite, kad galėtumėte komentuoti.
+            </div>
+        @endauth
+
+        @include('stories.comments._list', ['comments' => $comments, 'story' => $story])
+
+        <div class="mt-8">{{ $comments->links() }}</div>
     </div>
 </x-stories-layout>
