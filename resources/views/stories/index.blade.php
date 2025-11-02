@@ -48,6 +48,7 @@
                     </span>
                     <span>{{ $story->created_at->format('Y-m-d') }}</span>
                 </div>
+              </div>    
             </div>
           </a>
         @endforeach
