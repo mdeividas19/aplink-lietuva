@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Locations extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = [
+        'name',
+        'city_id',
+        'description',
+        'address',
+        'latitude',
+        'longitude',
+    ];
 
     public function images()
     {
@@ -16,5 +23,9 @@ class Locations extends Model
     public function firstImage()
     {
         return $this->hasOne(LocationImage::class, 'location_id')->oldest();
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

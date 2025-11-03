@@ -20,8 +20,10 @@ Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
 
-Route::get('/locations', [LocationsController::class, 'index'])->name('locations.index');
-Route::get('/locations/{id}', [LocationsController::class, 'show'])->name('locations.show');
+Route::resource('locations', LocationsController::class);
+Route::post('/locations/{location}/replace-first-photo', [LocationsController::class, 'ReplaceFirstPhoto'])->name('locations.ReplaceFirstPhoto');
+Route::post('/locations/{location}/add-photo', [LocationsController::class, 'AddMorePhotos'])->name('locations.AddMorePhotos');
+Route::delete('/locations/{location}/delete-photo/{photoId}', [LocationsController::class, 'DeletePhoto'])->name('locations.DeletePhoto');
 
 Route::get('/cities/{id}', [CityController::class, 'show'])->name('cities.show');
 
@@ -33,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     Route::post('/stories/{story}/comments', [StoryCommentController::class, 'store'])->name('stories.comments.store');
     Route::patch('/comments/{comment}', [StoryCommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [StoryCommentController::class, 'destroy'])->name('comments.destroy');
