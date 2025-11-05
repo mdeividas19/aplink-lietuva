@@ -48,11 +48,7 @@
                   </span>
                   <span>{{ $story->created_at->format('Y-m-d') }}</span>
                 </div>
-<<<<<<< HEAD
               </div>    
-=======
-              </div>
->>>>>>> aed5057 (fix neuzdarytas tagas)
             </div>
           </a>
         @endforeach
