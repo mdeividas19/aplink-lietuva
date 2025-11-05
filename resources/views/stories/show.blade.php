@@ -15,6 +15,45 @@
             {{ optional($story->user)->name ?? 'Autorius' }} · {{ $story->created_at->format('Y-m-d') }}
         </div>
 
+        <div 
+            x-data="{
+                liked: {{ auth()->check() && $story->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }},
+                likes: {{ $story->likes_count }},
+                async toggle() {
+                    const res = await fetch('{{ route('stories.like.toggle', $story) }}', {
+                        method: 'POST',
+                        headers: { 
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                            'Accept': 'application/json' 
+                        }
+                    });
+
+                    if (res.status === 401) {
+                        window.location = '{{ route('login') }}';
+                        return;
+                    }
+
+                    const data = await res.json();
+                    this.liked = data.liked;
+                    this.likes = data.likes_count;
+                }
+            }"
+            class="flex items-center gap-2 mb-6"
+        >
+            <button @click="toggle" class="flex items-center gap-1":class="liked ? 'text-rose-600' : 'text-stone-500 hover:text-stone-700'">
+                {{-- Outline heart --}}
+                <svg x-show="!liked" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.949 0-3.627 1.146-4.312 2.789-.685-1.643-2.363-2.789-4.313-2.789C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+                </svg>
+                {{-- Filled heart --}}
+                <svg x-show="liked" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 3 13.04 3 10.5 3 8.015 5.1 6 7.688 6c1.95 0 3.627 1.146 4.312 2.789C12.685 7.146 14.363 6 16.313 6 18.9 6 21 8.015 21 10.5c0 2.54-1.688 4.86-3.989 6.996a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.218l-.022.012-.007.003-.003.002-.002-.002z"/>
+                </svg>
+                <span x-text="likes" class="text-sm"></span>
+            </button>
+        </div>
+
         <div class="prose prose-stone max-w-none">
             {!! nl2br(e($story->body)) !!}
         </div>

@@ -20,4 +20,9 @@ class Story extends Model
     public function comments() {
         return $this->hasMany(\App\Models\Comment::class)->latest();
     }
+
+    public function likes()
+    {
+        return $this->hasMany(\App\Models\StoryLike::class);
+    }
 }

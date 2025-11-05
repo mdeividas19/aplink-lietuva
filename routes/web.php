@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\StoryLikeController;
 use App\Http\Controllers\StoryCommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CityController;
@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/stories/{story}/comments', [StoryCommentController::class, 'store'])->name('stories.comments.store');
     Route::patch('/comments/{comment}', [StoryCommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [StoryCommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/stories/{story}/like', [StoryLikeController::class, 'toggle'])->name('stories.like.toggle');
 });
 
 Route::get('/admin', [adminController::class, 'index'])->name('admin.dashboard');
