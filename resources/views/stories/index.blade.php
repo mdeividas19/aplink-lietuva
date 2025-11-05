@@ -53,6 +53,9 @@
           </a>
         @endforeach
       </div>
+      <div class="mt-6">
+        {{ $stories->links('vendor.pagination.stories') }}
+      </div>
     @endif
   </div>
 </x-stories-layout>

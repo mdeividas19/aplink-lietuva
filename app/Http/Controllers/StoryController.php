@@ -12,7 +12,7 @@ class StoryController extends Controller
      */
     public function index()
     {
-        $stories = Story::withCount('comments')->latest()->get();
+        $stories = Story::withCount('comments')->latest()->paginate(15);
         return view('stories.index', compact('stories'));
     }
 
