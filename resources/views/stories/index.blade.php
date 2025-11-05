@@ -40,15 +40,19 @@
                 <span>{{ optional($story->user)->name ?? 'Autorius' }}</span>
 
                 <div class="flex items-center gap-3">
-                    <span class="flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m5 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"/>
-                        </svg>
-                        {{ $story->comments_count }}
-                    </span>
-                    <span>{{ $story->created_at->format('Y-m-d') }}</span>
+                  <span class="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m5 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"/>
+                      </svg>
+                      {{ $story->comments_count }}
+                  </span>
+                  <span>{{ $story->created_at->format('Y-m-d') }}</span>
                 </div>
+<<<<<<< HEAD
               </div>    
+=======
+              </div>
+>>>>>>> aed5057 (fix neuzdarytas tagas)
             </div>
           </a>
         @endforeach
