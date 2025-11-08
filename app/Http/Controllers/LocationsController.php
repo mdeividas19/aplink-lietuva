@@ -28,14 +28,14 @@ class LocationsController extends Controller
     {
         if(!Gate::allows('isAdmin')){return redirect()->route('locations.index');}
 
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('id')->get();
         return view('locations.create', compact('cities'));
     }
     public function edit(Locations $location)
     {
         if(!Gate::allows('isAdmin')){return redirect()->route('locations.index');}
 
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('id')->get();
         return view('locations.edit', compact('location', 'cities'));
     }
 

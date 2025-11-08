@@ -16,11 +16,39 @@
     <body class="antialiased bg-stone-50 text-stone-900">
         <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
             <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
-                <a href="{{ route('main') }}" class="text-2xl font-semibold font-serif">Istorijos | Aplink Lietuva</a>
-                <nav class="flex items-center gap-4 text-sm">
+                <div class="text-2xl font-semibold font-serif">
+                    <a href="{{ route('stories.index') }}" class="hover:underline">Istorijos</a>
+                    <span class="text-stone-400 mx-1">|</span>
+                    <a href="{{ route('main') }}" class="hover:underline">Aplink Lietuva</a>
+                </div>
+                <nav class="flex items-center gap-3 text-sm">
                     @auth
-                        <a href="{{ route('stories.create') }}" class="px-3 py-1.5 rounded-full bg-stone-900 text-white hover:opacity-90">
+                        <a href="{{ route('stories.create') }}"
+                        class="px-3 py-1.5 rounded-full bg-stone-900 text-white hover:opacity-90">
                             Nauja istorija
+                        </a>
+
+                        <a href="{{ route('profile.edit') }}"
+                        class="px-3 py-1.5 rounded-md border border-stone-300 hover:bg-stone-50">
+                            Profilis
+                        </a>
+
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit"
+                                    class="px-3 py-1.5 rounded-md border border-stone-300 hover:bg-stone-50">
+                                Atsijungti
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}"
+                        class="px-3 py-1.5 rounded-md border border-stone-300 hover:bg-stone-50">
+                            Prisijungti
+                        </a>
+
+                        <a href="{{ route('register') }}"
+                        class="px-3 py-1.5 rounded-md border border-stone-300 hover:bg-stone-50">
+                            Registruotis
                         </a>
                     @endauth
                 </nav>

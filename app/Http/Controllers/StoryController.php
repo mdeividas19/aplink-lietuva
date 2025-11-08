@@ -10,12 +10,21 @@ class StoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $stories = Story::withCount('comments')->latest()->get();
-        return view('stories.index', compact('stories'));
-    }
+        $sort = $request->get('sort', 'date');
 
+        $stories = Story::withCount('comments')
+            ->when($sort === 'likes', fn($q) => $q->orderByDesc('likes_count'))
+            ->when($sort === 'comments', fn($q) => $q->orderByDesc('comments_count'))
+            ->when($sort === 'views', fn($q) => $q->orderByDesc('views_count'))
+            ->when($sort === 'date', fn($q) => $q->latest())
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('stories.index', compact('stories', 'sort'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -63,6 +72,17 @@ class StoryController extends Controller
      */
     public function show(Story $story)
     {
+        $likedByAuth = false;
+        if (auth()->check()) {
+            $likedByAuth = $story->likes()->where('user_id', auth()->id())->exists();
+        }
+
+        $sessionKey = "viewed_story_{$story->id}";
+        if (!session()->has($sessionKey)) {
+            $story->increment('views_count');
+            session()->put($sessionKey, true);
+        }
+
         $comments = $story->comments()
             ->with([
                 'user',
