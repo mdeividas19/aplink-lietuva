@@ -120,7 +120,25 @@ class LocationSeeder extends Seeder
             'key' => $this->apiKey,
         ];
 
-        $params['type'] = 'point_of_interest';
+        $touristTypes = [
+            'tourist_attraction',
+            'museum',
+            'art_gallery',
+            'park',
+            'church',
+            'synagogue',
+            'hindu_temple',
+            'mosque',
+            'amusement_park',
+            'aquarium',
+            'zoo',
+            'stadium',
+            'shopping_mall',
+            'restaurant',
+            'cafe',
+        ];
+
+        $params['type'] = $touristTypes[array_rand($touristTypes)];
 
         if ($pageToken) {
             $params['pagetoken'] = $pageToken;
