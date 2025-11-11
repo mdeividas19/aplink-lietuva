@@ -1,15 +1,15 @@
 <section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-xl font-bold text-forest-green-700">
             {{ __('Ištrinti paskyrą') }}
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-600">
             {{ __('Ištrinus jūsų paskyrą, visi jos ištekliai ir duomenys bus visam laikui ištrinti. Prieš ištrindami paskyrą, atsisiųskite visus duomenis ar informaciją, kurią norite išsaugoti.') }}
         </p>
     </header>
 
     <x-danger-button
+        class="rounded-2xl bg-amber-600 hover:bg-amber-700 focus:ring-amber-300"
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
     >{{ __('Ištrinti paskyrą') }}</x-danger-button>
@@ -19,34 +19,30 @@
             @csrf
             @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-semibold text-forest-green-700">
                 {{ __('Ar tikrai norite ištrinti savo paskyrą?') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Ištrinus jūsų paskyrą, visi jos ištekliai ir duomenys bus visam laikui ištrinti. Įveskite slaptažodį, kad patvirtintumėte, jog norite visam laikui ištrinti savo paskyrą.') }}
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Įveskite slaptažodį, kad patvirtintumėte, jog norite visam laikui ištrinti savo paskyrą.') }}
             </p>
 
             <div class="mt-6">
                 <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
                 <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
+                    id="password" name="password" type="password"
+                    class="mt-1 block w-3/4 rounded-xl border-amber-200 focus:border-amber-500 focus:ring-amber-500"
                     placeholder="{{ __('Password') }}"
                 />
-
                 <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
             </div>
 
             <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
+                <x-secondary-button class="rounded-2xl">
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ms-3">
+                <x-danger-button class="ms-3 rounded-2xl bg-amber-600 hover:bg-amber-700 focus:ring-amber-300">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </div>
