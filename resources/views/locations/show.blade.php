@@ -30,7 +30,7 @@
 
                     <div class="grid grid-cols-4 gap-4 px-8 mt-6">
                         @foreach($visibleImages as $index => $image)
-                            <div class="relative overflow-hidden rounded-lg shadow-md cursor-pointer group hover:shadow-xl transition-shadow" onclick="openGallery({{ $index - 1 }})">
+                            <div class="relative overflow-hidden rounded-lg shadow-md cursor-pointer group hover:shadow-xl transition-shadow z-40" onclick="openGallery({{ $index - 1 }})">
                                 <img
                                     class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                                     src="{{ asset('storage/' . $image->image_path) }}"
@@ -43,7 +43,7 @@
                             @php
                                 $fourthImage = $extraImages[4];
                             @endphp
-                            <div class="relative overflow-hidden rounded-lg shadow-md cursor-pointer group hover:shadow-xl transition-shadow" onclick="openGallery(3)">
+                            <div class="relative overflow-hidden rounded-lg shadow-md cursor-pointer group hover:shadow-xl transition-shadow z-40" onclick="openGallery(3)">
                                 <img
                                     class="w-full h-48 object-cover"
                                     src="{{ asset('storage/' . $fourthImage->image_path) }}"
@@ -65,8 +65,8 @@
                         <button class="absolute right-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-4xl px-6 py-4 rounded-l-lg" onclick="nextImage()">›</button>
                     </div>
                 </div>
-                @if ($location->description)
                 <div class="mt-12 px-8 pb-8">
+                    @if ($location->description)
                     <h2 class="text-3xl font-serif mb-6 text-forest-green-700 text-center">Aprašymas</h2>
 
                     <div class="prose max-w-none mb-12">
@@ -79,13 +79,12 @@
                         </div>
                         <div class=" mb-7 ml-7 mr-7 mt-4 text-gray-900 dark:text-gray-100 ">
                             <div>
-                                <div id="map" style="width: 100%; height: 400px; border-radius: 0.5rem;"></div>
+                                <div class="z-30" id="map" style="width: 100%; height: 400px; border-radius: 0.5rem;"></div>
                             </div>
-                            @endif
                         </div>
+                    @endif
                 </div>
             </div>
-            <div class=" p-4 text-gray-900 dark:text-gray-100"></div>
         </div>
     </div>
 </x-app-layout>
@@ -102,6 +101,7 @@
         currentIndex = index;
         document.getElementById('galleryImage').src = images[currentIndex];
         document.getElementById('galleryModal').classList.remove('hidden');
+        document.body.classList.add('no-scroll')
     }
 
     function closeGallery(){
