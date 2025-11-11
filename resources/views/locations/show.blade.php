@@ -50,7 +50,7 @@
                                     alt="More images"
                                 >
                                 <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center text-white text-3xl font-bold">
-                                    +{{ $remainingCount }}
+                                    +{{ $remainingCount - 1 }}
                                 </div>
                             </div>
                         @endif
