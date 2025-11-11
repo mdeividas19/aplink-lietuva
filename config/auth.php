@@ -115,7 +115,4 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
-    'google_maps' => [
-    'api_key' => env('GOOGLE_MAPS_API_KEY'),
-    ],
 ];
