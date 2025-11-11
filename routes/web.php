@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\LocationsController;
-use App\Http\Controllers\adminController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CityController::class, 'index'])->name('main');
@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/stories/{story}/like', [StoryLikeController::class, 'toggle'])->name('stories.like.toggle');
 });
 
-Route::get('/admin', [adminController::class, 'index'])->name('admin.dashboard');
+Route::middleware('can:isAdmin')->group(function(){
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/user/{user}', [AdminController::class, 'editUser'])->name('admin.editUser');
+    Route::patch('/admin/user/{user}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+});
 
 require __DIR__.'/auth.php';
