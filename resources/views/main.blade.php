@@ -100,7 +100,7 @@
                             Atraskite Parnidžio kopą Nidoje – vieną įspūdingiausių vietų Kuršių nerijoje, kur smėlis ir marios susitinka su dangumi, o saulės laikrodis skaičiuoja nepamirštamas akimirkas.
                         </p>
                         <div>
-                            <a href="#" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                            <a href="{{ route('locations.index') }}" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
                                 Žiūrėti Daugiau
                                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -130,7 +130,7 @@
                         </svg>
                         Skaityti Istorijas
                     </a>
-                    <a href="#" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green border-2 border-forest-green hover:bg-forest-green hover:text-white transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <a href="{{ route('stories.index') }}" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green border-2 border-forest-green hover:bg-forest-green hover:text-white transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
