@@ -29,7 +29,6 @@
                     @endphp
 
                     <div class="grid grid-cols-4 gap-4 px-8 mt-6">
-                        {{-- Show next 3 images normally --}}
                         @foreach($visibleImages as $index => $image)
                             <div class="relative overflow-hidden rounded-lg shadow-md cursor-pointer group hover:shadow-xl transition-shadow" onclick="openGallery({{ $index - 1 }})">
                                 <img
@@ -66,40 +65,27 @@
                         <button class="absolute right-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-4xl px-6 py-4 rounded-l-lg" onclick="nextImage()">›</button>
                     </div>
                 </div>
-
+                @if ($location->description)
                 <div class="mt-12 px-8 pb-8">
                     <h2 class="text-3xl font-serif mb-6 text-forest-green-700 text-center">Aprašymas</h2>
-                    
-                    @if ($location->description)
+
                     <div class="prose max-w-none mb-12">
                         <p class="text-gray-700 leading-relaxed text-lg">{{ $location->description }}</p>
                     </div>
                     @endif
-
-                    <h2 class="text-3xl font-serif mb-6 text-forest-green-700 text-center">Vieta</h2>
-                    
                     @if ($location->city && $location->address && $location->longitude && $location->latitude)
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-                                <p class="text-sm text-gray-500 mb-1">Miestas</p>
-                                <p class="text-lg font-semibold text-gray-900">{{ $location->city->name }}</p>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-                                <p class="text-sm text-gray-500 mb-1">Adresas</p>
-                                <p class="text-lg font-semibold text-gray-900">{{ $location->address }}</p>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-                                <p class="text-sm text-gray-500 mb-1">Platuma</p>
-                                <p class="text-lg font-semibold text-gray-900">{{ $location->longitude }}</p>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-                                <p class="text-sm text-gray-500 mb-1">Ilguma</p>
-                                <p class="text-lg font-semibold text-gray-900">{{ $location->latitude }}</p>
-                            </div>
+                        <div class=" text-3xl p-7 text-gray-900 text-center dark:text-gray-100">
+                            <h1 class="text-4xl font-serif inline-block bg-white text-gray-900 w-[300px] py-1 rounded-full shadow-md">Žemėlapis</h1>
                         </div>
-                    @endif
+                        <div class=" mb-7 ml-7 mr-7 mt-4 text-gray-900 dark:text-gray-100 ">
+                            <div>
+                                <div id="map" style="width: 100%; height: 400px; border-radius: 0.5rem;"></div>
+                            </div>
+                            @endif
+                        </div>
                 </div>
             </div>
+            <div class=" p-4 text-gray-900 dark:text-gray-100"></div>
         </div>
     </div>
 </x-app-layout>
@@ -131,4 +117,26 @@
         currentIndex = (currentIndex + 1) % images.length;
         document.getElementById('galleryImage').src = images[currentIndex];
     }
+</script>
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var map = L.map('map').setView(
+            [{{ $location->latitude ?? 55.1735998 }}, {{ $location->longitude ?? 23.8948016 }}], 16);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19}).addTo(map);
+
+        var marker = L.marker([{{ $location->latitude ?? 55.1735998 }}, {{ $location->longitude ?? 23.8948016 }}]).addTo(map);
+        marker.bindPopup("<b>{{ $location->name }}</b>").openPopup();
+    });
 </script>
