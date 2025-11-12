@@ -2,11 +2,8 @@
     <div class="py-12">
 	<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 	    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-		<div class="p-6 text-gray-900 dark:text-gray-100">
-<!--{{dd($user)}}
-<!--	    <form method="post" action="{{route ('admin.updateUser', $user)}}">-->
-@if($user && $user->exists)
-<form method="post" action="">
+		<div>
+<form method="post" action="{{route('admin.updateUser', $user)}}">
 			@csrf
 			@method('patch')
 			<div>
@@ -15,7 +12,7 @@
 			</div>
 			<div>
 			   <label>Role</label></br>
-			   <select name="role" value="{{$user->role}}" />
+			   <select name="role" value="{{$user->role}}" >
 				<option value="0">User</option>
 				<option value="1">Verified</option>
 				<option value="2">Admin</option>
@@ -24,7 +21,7 @@
 
 			<br><input class="btn btn-primary" type="submit" value="Save" />
 
-		    </form>@endif
+		    </form>
 		</div>
 	    </div>
 	</div>

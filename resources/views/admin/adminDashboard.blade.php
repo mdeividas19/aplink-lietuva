@@ -19,7 +19,7 @@
                             </a>
                         </nav>
                     </div>
-                </div>
+               </div>
             </div>
 
             {{-- Main card --}}
