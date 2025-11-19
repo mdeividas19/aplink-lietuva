@@ -28,6 +28,11 @@
                     Pradžia
                 </a>
                 
+                <a href="{{ route('map.index') }}" 
+                   class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('map.*') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                    Žemėlapis
+                </a>
+
                 <a href="{{ route('stories.index') }}" 
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('stories.*') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Istorijos

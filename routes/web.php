@@ -6,6 +6,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CityController::class, 'index'])->name('main');
@@ -15,6 +16,8 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::resource('stories', StoryController::class);
+
+Route::resource('map', MapController::class);
 
 Route::get('/contacts', function () {
     return view('contacts');
