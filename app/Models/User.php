@@ -46,7 +46,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
     public function storyLikes()
     {
         return $this->hasMany(\App\Models\StoryLike::class);
@@ -55,5 +54,10 @@ class User extends Authenticatable
     public function likedStories()
     {
         return $this->belongsToMany(\App\Models\Story::class, 'story_likes')->withTimestamps();
+    }
+
+    public function favoriteLocations()
+    {
+        return $this->belongsToMany(Locations::class, 'favorite_user_locations', 'user_id', 'location_id')->withTimestamps();
     }
 }

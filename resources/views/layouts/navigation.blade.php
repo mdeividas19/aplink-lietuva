@@ -1,11 +1,11 @@
-<nav x-data="{ open: false, scrolled: false }" 
+<nav x-data="{ open: false, scrolled: false }"
      x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
      :class="scrolled ? 'bg-white shadow-lg' : 'bg-white'"
      class="fixed w-full top-0 z-50 transition-all duration-300">
-    
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
-            
+
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="{{ route('main') }}" class="flex items-center group">
@@ -23,32 +23,37 @@
 
             <!-- Desktop Navigation Links -->
             <div class="hidden md:flex items-center space-x-1">
-                <a href="{{ route('main') }}" 
+                <a href="{{ route('main') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('main') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Pradžia
                 </a>
-                
-                <a href="{{ route('map.index') }}" 
+
+                <a href="{{ route('map.index') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('map.*') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Žemėlapis
                 </a>
 
-                <a href="{{ route('stories.index') }}" 
+                <a href="{{ route('stories.index') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('stories.*') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Istorijos
                 </a>
-                
-                <a href="{{ route('locations.index') }}" 
+
+                <a href="{{ route('locations.index') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('locations.index') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Vietovės
                 </a>
-                
-                <a href="{{ route('about') }}" 
+
+                <a href="{{ route('locations.favorites') }}"
+                   class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('locations.favorites') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                    Mėgstamiausios vietovės
+                </a>
+
+                <a href="{{ route('about') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('about') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Apie
                 </a>
-                
-                <a href="{{ route('contacts') }}" 
+
+                <a href="{{ route('contacts') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('contacts') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Kontaktai
                 </a>
@@ -83,11 +88,11 @@
                     </x-slot>
                 </x-dropdown>
                 @else
-                <a href="{{ route('login') }}" 
+                <a href="{{ route('login') }}"
                    class="px-5 py-2.5 text-sm font-semibold text-forest-green hover:bg-gray-100 rounded-lg transition-all duration-200">
                     Prisijungti
                 </a>
-                <a href="{{ route('register') }}" 
+                <a href="{{ route('register') }}"
                    class="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
                     Registruotis
                 </a>
@@ -96,7 +101,7 @@
 
             <!-- Mobile menu button -->
             <div class="md:hidden">
-                <button @click="open = !open" 
+                <button @click="open = !open"
                         class="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -108,7 +113,7 @@
     </div>
 
     <!-- Mobile Navigation Menu -->
-    <div x-show="open" 
+    <div x-show="open"
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 transform scale-95"
          x-transition:enter-end="opacity-100 transform scale-100"
@@ -116,29 +121,29 @@
          x-transition:leave-start="opacity-100 transform scale-100"
          x-transition:leave-end="opacity-0 transform scale-95"
          class="md:hidden bg-white border-t border-gray-200 shadow-lg">
-        
+
         <div class="px-4 pt-4 pb-3 space-y-2">
-            <a href="{{ route('main') }}" 
+            <a href="{{ route('main') }}"
                class="block px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 {{ request()->routeIs('main') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                 Pradžia
             </a>
-            
-            <a href="{{ route('stories.index') }}" 
+
+            <a href="{{ route('stories.index') }}"
                class="block px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 {{ request()->routeIs('stories.*') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                 Istorijos
             </a>
-            
-            <a href="{{ route('locations.index') }}" 
+
+            <a href="{{ route('locations.index') }}"
                class="block px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 {{ request()->routeIs('locations.index') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                 Vietovės
             </a>
-            
-            <a href="{{ route('about') }}" 
+
+            <a href="{{ route('about') }}"
                class="block px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 {{ request()->routeIs('about') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                 Apie
             </a>
-            
-            <a href="{{ route('contacts') }}" 
+
+            <a href="{{ route('contacts') }}"
                class="block px-4 py-3 rounded-lg text-base font-semibold transition-all duration-200 {{ request()->routeIs('contacts') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                 Kontaktai
             </a>
@@ -156,16 +161,16 @@
                     <div class="text-xs text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>
-            
+
             <div class="space-y-2">
-                <a href="{{ route('profile.edit') }}" 
+                <a href="{{ route('profile.edit') }}"
                    class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-white transition-colors duration-200">
                     Profilis
                 </a>
-                
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" 
+                    <button type="submit"
                             class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-white transition-colors duration-200">
                         Atsijungti
                     </button>
@@ -174,11 +179,11 @@
         </div>
         @else
         <div class="px-4 py-4 border-t border-gray-200 bg-gray-50 space-y-2">
-            <a href="{{ route('login') }}" 
+            <a href="{{ route('login') }}"
                class="block w-full text-center px-5 py-3 text-sm font-semibold text-forest-green bg-white hover:bg-gray-100 rounded-lg transition-all duration-200 shadow-sm">
                 Prisijungti
             </a>
-            <a href="{{ route('register') }}" 
+            <a href="{{ route('register') }}"
                class="block w-full text-center px-5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-lg transition-all duration-200 shadow-md">
                 Registruotis
             </a>

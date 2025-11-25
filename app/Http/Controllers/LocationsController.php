@@ -16,7 +16,9 @@ class LocationsController extends Controller
         $grouped = $locations->groupBy(function ($item) {return mb_strtoupper(mb_substr($item->name, 0, 1, 'UTF-8'));})->sortKeys();
         $cities = City::orderBy('name')->get();
 
-        return view('locations.index', compact('grouped', 'cities'));
+        $showingFavorites = false;
+
+        return view('locations.index', compact('grouped', 'cities', 'showingFavorites'));
     }
 
     public function show($id)
@@ -146,5 +148,47 @@ class LocationsController extends Controller
         $image->delete();
 
         return response()->json(['success' => true]);
+    }
+    public function storeFavorite(Locations $location)
+    {
+        auth()->user()->favoriteLocations()->syncWithoutDetaching([$location->id]);
+        return response()->noContent(); // 204 No Content
+    }
+
+    public function destroyFavorite(Locations $location)
+    {
+        auth()->user()->favoriteLocations()->detach($location->id);
+        return response()->noContent();
+    }
+    public function Favorites()
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            abort(403, 'You must be logged in to see liked locations.');
+        }
+
+        // Get IDs of locations the user has favorited
+        $favoriteLocationIds = $user->favoriteLocations()->pluck('location_id');
+
+        // Fetch those locations and eager load the first image
+        $locations = \App\Models\Locations::with('firstImage')
+            ->whereIn('id', $favoriteLocationIds)
+            ->orderBy('name')
+            ->get();
+
+        // Group by first letter
+        $grouped = $locations->groupBy(function($location) {
+            return strtoupper(mb_substr($location->name, 0, 1));
+        });
+
+        // Fetch all cities for filtering dropdown (optional)
+        $cities = City::orderBy('name')->get();
+
+        return view('locations.index', [
+            'grouped' => $grouped,
+            'cities' => $cities,
+            'showingFavorites' => true // optional flag if you want special behavior in the Blade
+        ]);
     }
 }

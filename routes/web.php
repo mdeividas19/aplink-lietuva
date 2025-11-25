@@ -23,10 +23,13 @@ Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
 
+Route::get('/locations/favorites', [LocationsController::class, 'Favorites'])->name('locations.favorites');
 Route::resource('locations', LocationsController::class);
 Route::post('/locations/{location}/replace-first-photo', [LocationsController::class, 'ReplaceFirstPhoto'])->name('locations.ReplaceFirstPhoto');
 Route::post('/locations/{location}/add-photo', [LocationsController::class, 'AddMorePhotos'])->name('locations.AddMorePhotos');
 Route::delete('/locations/{location}/delete-photo/{photoId}', [LocationsController::class, 'DeletePhoto'])->name('locations.DeletePhoto');
+Route::post('/locations/{location}/favorite', [LocationsController::class, 'storeFavorite'])->name('locations.favorite.store');
+Route::delete('/locations/{location}/favorite', [LocationsController::class, 'destroyFavorite'])->name('locations.favorite.destroy');
 
 Route::get('/cities/{id}', [CityController::class, 'show'])->name('cities.show');
 

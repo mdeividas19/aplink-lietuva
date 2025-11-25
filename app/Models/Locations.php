@@ -28,4 +28,8 @@ class Locations extends Model
     {
         return $this->belongsTo(City::class);
     }
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorite_user_locations', 'location_id', 'user_id')->withTimestamps();
+    }
 }
