@@ -185,4 +185,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+    //Pamėgimo mygtuko js
+    document.querySelectorAll('.heart-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const locationId = this.dataset.locationId;
+            let favorited = this.dataset.favorited === '1';
+            const method = favorited ? 'DELETE' : 'POST';
+
+            fetch(`/locations/${locationId}/favorite`, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'}}).then(res => {
+                    if (res.ok) {
+                        favorited = !favorited;
+                        this.dataset.favorited = favorited ? '1' : '0';
+                        const icon = this.querySelector('.heart-icon');
+                        icon.setAttribute('fill', favorited ? 'currentColor' : 'none');
+
+                        if (!favorited) {
+                            const card = this.closest('.flex.flex-col.relative');
+                            const letterSection = card.closest('.letter-section');
+                            card.remove();
+
+                            if (letterSection.querySelectorAll('.flex.flex-col.relative').length === 0) {
+                                letterSection.remove();}}}
+
+                    else {console.error('Failed to toggle favorite');}}).catch(err => console.error(err));});
+    });
 });
