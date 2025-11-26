@@ -43,11 +43,6 @@
                     Vietovės
                 </a>
 
-                <a href="{{ route('locations.favorites') }}"
-                   class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('locations.favorites') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                    Mėgstamiausios vietovės
-                </a>
-
                 <a href="{{ route('about') }}"
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('about') ? 'bg-forest-green text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     Apie
@@ -77,6 +72,9 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profilis') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('locations.favorites')">
+                            {{ __('Mėgstamiausios vietovės') }}
                         </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
