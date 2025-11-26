@@ -76,42 +76,67 @@
         </div>
     </div>
 
-    <!-- Place of the Day Section -->
+    <!-- Random Location Section -->
     <div class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gradient-to-br from-forest-green to-baltic-blue rounded-3xl shadow-2xl overflow-hidden">
                 <div class="grid md:grid-cols-2 gap-0">
                     <div class="relative h-80 md:h-auto">
-                        <img class="absolute inset-0 w-full h-full object-cover" src="img/nidos_kopos.jpg" alt="Nidos kopos">
+                        @if($location->images->isNotEmpty())
+                            <img id="random-location-image" class="absolute inset-0 w-full h-full object-cover" src="/storage/location_images/{{ $location->images[0]->image_path }}" alt="{{ $location->name }}">
+                        @else
+                            <img id="random-location-image" class="absolute inset-0 w-full h-full object-cover" src="img/placeholder.png" alt="{{ $location->name }}">
+                        @endif
                         <div class="absolute top-6 left-6">
                             <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-amber-500 text-white shadow-lg">
                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                 </svg>
-                                Dienos Vieta
+                                Atsitiktinė Vieta
                             </span>
                         </div>
                     </div>
                     <div class="p-8 md:p-12 flex flex-col justify-center">
-                        <h3 class="text-4xl md:text-5xl font-bold text-white mb-6">
-                            Nidos kopos
+                        <h3 id="random-location-name" class="text-4xl md:text-5xl font-bold text-white mb-6">
+                            {{ $location->name }}
                         </h3>
-                        <p class="text-lg text-amber-50 leading-relaxed mb-8"> <!--amber text color? !-->
-                            Atraskite Parnidžio kopą Nidoje – vieną įspūdingiausių vietų Kuršių nerijoje, kur smėlis ir marios susitinka su dangumi, o saulės laikrodis skaičiuoja nepamirštamas akimirkas.
+                        <p id="random-location-description" class="text-lg text-amber-50 leading-relaxed mb-8"> <!--amber text color? !-->
+                            {{ $location->description }}
                         </p>
-                        <div>
-                            <a href="{{ route('locations.index') }}" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                        <div class="flex space-x-4">
+                            <a id="random-location-view-more-btn" href="locations/{{ $location->id }}" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
                                 Žiūrėti Daugiau
                                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
                             </a>
+                            <button id="random-location-other-location-btn" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                                Kita Vieta
+                                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h2.586a1 1 0 0 1 .707.293l8.414 8.414M20 20h-2.586a1 1 0 0 1-.707-.293L8.293 11.293M20 4l-4 4m0-4l4 4M4 20l4-4m0 4l-4-4"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('random-location-other-location-btn').addEventListener('click', function() {
+            fetch('/random-location')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('random-location-name').textContent = data.name;
+                document.getElementById('random-location-description').textContent = data.description;
+                document.getElementById('random-location-image').src = data.image_path;
+                document.getElementById('random-location-image').alt = data.name;
+                document.getElementById('random-location-view-more-btn').href = "/locations/" + data.id;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
 
     <!-- Community Stories Section -->
     <div class="py-20 bg-gradient-to-br from-gray-50 to-amber-50/30">

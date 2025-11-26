@@ -33,6 +33,8 @@ Route::delete('/locations/{location}/favorite', [LocationsController::class, 'de
 
 Route::get('/cities/{id}', [CityController::class, 'show'])->name('cities.show');
 
+Route::get('/random-location', [LocationsController::class, 'getRandomLocation']);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

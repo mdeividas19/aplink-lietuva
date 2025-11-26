@@ -191,4 +191,17 @@ class LocationsController extends Controller
             'showingFavorites' => true // optional flag if you want special behavior in the Blade
         ]);
     }
+    
+    public function getRandomLocation()
+    {
+        $randomLocation = Locations::inRandomOrder()->first();
+    
+        return response()->json([
+            'id' => $randomLocation->id,
+            'name' => $randomLocation->name,
+            'description' => $randomLocation->description,
+            'image_path' => $randomLocation->images->first() ? '/storage/location_images/'.$randomLocation->images->first()->image_path : 'img/placeholder.png'
+        ]);
+    }
+    
 }

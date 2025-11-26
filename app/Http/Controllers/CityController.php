@@ -11,7 +11,13 @@ class CityController extends Controller
     public function index()
     {
         $cities = City::all();
-        return view('main', compact('cities'));
+        $location = Locations::select('id', 'name', 'description')
+        ->with(['images' => function($query) {
+            $query->select('location_id', 'image_path')->limit(1);
+        }])
+        ->inRandomOrder()
+        ->first();
+        return view('main', compact('cities', 'location'));
     }
 
     public function show($id)
