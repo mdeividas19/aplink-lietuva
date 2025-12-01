@@ -3,7 +3,7 @@
         @if($story->cover_image_path)
             @php
                 $path = ltrim($story->cover_image_path, '/');
-                $coverUrl = Str::startsWith($path, 'demo/') 
+                $coverUrl = Str::startsWith($path, 'demo/')
                     ? asset($path)  // served from /public/demo/... (seedinimui)
                     : asset('storage/'.$path);
             @endphp
@@ -15,16 +15,26 @@
             {{ optional($story->user)->name ?? 'Autorius' }} · {{ $story->created_at->format('Y-m-d') }}
         </div>
 
-        <div 
+        @if($story->tags->count())
+            <div class="flex flex-wrap gap-2 mt-2 mb-6">
+                @foreach($story->tags as $tag)
+                    <span class="px-2 py-0.5 text-xs bg-stone-200 text-stone-700 rounded-full whitespace-nowrap">
+                        {{ $tag->name }}
+                    </span>
+                @endforeach
+            </div>
+        @endif
+
+        <div
             x-data="{
                 liked: {{ auth()->check() && $story->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }},
                 likes: {{ $story->likes_count }},
                 async toggle() {
                     const res = await fetch('{{ route('stories.like.toggle', $story) }}', {
                         method: 'POST',
-                        headers: { 
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}', 
-                            'Accept': 'application/json' 
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
                         }
                     });
 
@@ -43,7 +53,7 @@
             <button @click="toggle" class="flex items-center gap-1":class="liked ? 'text-rose-600' : 'text-stone-500 hover:text-stone-700'">
                 {{-- Outline heart --}}
                 <svg x-show="!liked" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.949 0-3.627 1.146-4.312 2.789-.685-1.643-2.363-2.789-4.313-2.789C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                 </svg>
                 {{-- Filled heart --}}
@@ -57,7 +67,7 @@
         <div class="prose prose-stone max-w-none">
             {!! nl2br(e($story->body)) !!}
         </div>
-        
+
         @if($story->images && $story->images->count())
             <h2 class="text-xl font-serif mt-10 mb-3">Nuotraukų galerija</h2>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -72,14 +82,15 @@
         @endif
 
         <div class="mt-8 flex items-center gap-3">
-            @if(auth()->id() === $story->user_id)
+            @can('edit-story', $story)
                 <a href="{{ route('stories.edit', $story) }}" class="px-3 py-2 text-sm rounded-md border border-stone-300">Redaguoti</a>
-
+            @endcan
+            @can('delete-story', $story)
                 <form method="POST" action="{{ route('stories.destroy', $story) }}" onsubmit="return confirm('Ištrinti istoriją?')">
                     @csrf @method('DELETE')
                     <button class="px-3 py-2 text-sm rounded-md border border-stone-300">Ištrinti</button>
                 </form>
-            @endif
+            @endcan
         </div>
     </div>
 

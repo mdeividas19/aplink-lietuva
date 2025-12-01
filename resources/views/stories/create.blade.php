@@ -4,6 +4,12 @@
 
         <form method="POST" action="{{ route('stories.store') }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
+            <div>
+                <label class="block text-sm font-medium mb-1">Viršelio nuotrauka (thumbnail)</label>
+                <input type="file" name="cover" accept="image/*" class="block w-full cursor-pointer">
+                <p class="text-xs text-stone-500 mt-1">PNG/JPG, iki 8 MB.</p>
+                @error('cover') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+            </div>
 
             <div>
                 <label class="block text-sm font-medium mb-1">Pavadinimas</label>
@@ -17,12 +23,25 @@
                 @error('body') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
             </div>
 
-            <div>
-                <label class="block text-sm font-medium mb-1">Viršelio nuotrauka (thumbnail)</label>
-                <input type="file" name="cover" accept="image/*" class="block w-full cursor-pointer">
-                <p class="text-xs text-stone-500 mt-1">PNG/JPG, iki 8 MB.</p>
-                @error('cover') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+
+            <label class="block text-sm font-medium mb-1">Žymos</label>
+            <div class="flex flex-wrap gap-2">
+                    @foreach($tags as $tag)
+                        <label class="flex items-center gap-1 text-sm">
+                            <input
+                                type="checkbox"
+                                name="tags[]"
+                                value="{{ $tag->id }}"
+                                class="rounded border-stone-300"
+                            >
+                            <span>{{ $tag->name }}</span>
+                        </label>
+                    @endforeach
             </div>
+
+            @error('tags')
+                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            @enderror
 
             <div>
                 <label class="block text-sm font-medium mb-1">Galerijos nuotraukos</label>

@@ -12,14 +12,8 @@ class Comment extends Model
 
     public function story(): BelongsTo { return $this->belongsTo(Story::class); }
     public function user(): BelongsTo { return $this->belongsTo(User::class); }
-    
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Comment::class, 'parent_id');
-    }
 
-    public function children(): HasMany
-    {
-        return $this->hasMany(Comment::class, 'parent_id')->orderBy('created_at');
-    }
+    public function parent(): BelongsTo { return $this->belongsTo(Comment::class, 'parent_id'); }
+
+    public function children(): HasMany { return $this->hasMany(Comment::class, 'parent_id')->orderBy('created_at'); }
 }

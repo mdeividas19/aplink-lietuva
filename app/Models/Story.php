@@ -13,16 +13,11 @@ class Story extends Model
 
     public function user() { return $this->belongsTo(User::class); }
 
-    public function images() {
-        return $this->hasMany(StoryImage::class)->orderBy('order');
-    }
+    public function images() { return $this->hasMany(StoryImage::class)->orderBy('order'); }
 
-    public function comments() {
-        return $this->hasMany(\App\Models\Comment::class)->latest();
-    }
+    public function comments() { return $this->hasMany(\App\Models\Comment::class)->latest(); }
 
-    public function likes()
-    {
-        return $this->hasMany(\App\Models\StoryLike::class);
-    }
+    public function likes() { return $this->hasMany(\App\Models\StoryLike::class); }
+
+    public function tags() { return $this->belongsToMany(Tag::class); }
 }

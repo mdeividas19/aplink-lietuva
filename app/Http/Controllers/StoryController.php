@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class StoryController extends Controller
 {
@@ -14,7 +16,8 @@ class StoryController extends Controller
     {
         $sort = $request->get('sort', 'date');
 
-        $stories = Story::withCount('comments')
+        $stories = Story::with(['tags'])
+            ->withCount(['comments'])
             ->when($sort === 'likes', fn($q) => $q->orderByDesc('likes_count'))
             ->when($sort === 'comments', fn($q) => $q->orderByDesc('comments_count'))
             ->when($sort === 'views', fn($q) => $q->orderByDesc('views_count'))
@@ -24,13 +27,17 @@ class StoryController extends Controller
 
         return view('stories.index', compact('stories', 'sort'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('stories.create');
+        if (! Gate::allows('create-story')) { abort(403); }
+
+        $tags = Tag::all();
+
+        return view('stories.create', compact('tags'));
     }
 
     /**
@@ -38,6 +45,8 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('create-story')) { abort(403); }
+
         $data = $request->validate([
             'title'   => ['required','string','max:140'],
             'body'    => ['required','string'],
@@ -56,6 +65,10 @@ class StoryController extends Controller
             'body'             => $data['body'],
             'cover_image_path' => $coverPath,
         ]);
+
+        if ($request->filled('tags')) {
+            $story->tags()->sync($request->tags);
+        }
 
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $i => $file) {
@@ -101,7 +114,9 @@ class StoryController extends Controller
      */
     public function edit(Story $story)
     {
-        return view('stories.edit', compact('story'));
+        if (! Gate::allows('edit-story', $story)) { abort(403); }
+        $tags = Tag::all();
+        return view('stories.edit', compact('story', 'tags'));
     }
 
     /**
@@ -109,6 +124,8 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
+        if (! Gate::allows('edit-story', $story)) { abort(403); }
+
         $data = $request->validate([
             'title'   => ['required','string','max:140'],
             'body'    => ['required','string'],
@@ -131,6 +148,10 @@ class StoryController extends Controller
             }
         }
 
+        if ($request->filled('tags')) {
+            $story->tags()->sync($request->tags);
+        }
+
         return redirect()->route('stories.show', $story);
     }
 
@@ -139,6 +160,7 @@ class StoryController extends Controller
      */
     public function destroy(Story $story)
     {
+        if (! Gate::allows('delete-story', $story)) { abort(403); }
         $story->delete();
         return redirect()->route('stories.index');
     }
