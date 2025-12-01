@@ -6,6 +6,24 @@
       @csrf @method('PUT')
 
       <div>
+        <label class="block text-sm font-medium mb-2">Viršelio nuotrauka</label>
+
+        @if($story->cover_image_path)
+          @php
+              $path = ltrim($story->cover_image_path, '/');
+              $coverUrl = Str::startsWith($path, 'demo/')
+                  ? asset($path)  // served from /public/demo/... (seedinimui)
+                  : asset('storage/'.$path);
+          @endphp
+          <img src="{{ $coverUrl }}" alt="" class="w-full rounded-2xl mb-6 object-cover">
+        @endif
+
+        <input type="file" name="cover" accept="image/*" class="block w-full cursor-pointer">
+        <p class="text-xs text-stone-500 mt-1">Jei pasirinksite naują, senasis viršelis bus pakeistas. PNG/JPG, iki 8 MB.</p>
+        @error('cover') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+      </div>
+
+      <div>
         <label class="block text-sm font-medium mb-1">Pavadinimas</label>
         <input name="title" value="{{ old('title', $story->title) }}" required class="w-full rounded-md border p-2">
         @error('title') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
@@ -18,22 +36,29 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium mb-2">Viršelio nuotrauka</label>
+        <label class="block text-sm font-medium mb-1">Žymos</label>
 
-        @if($story->cover_image_path)
-          @php
-              $path = ltrim($story->cover_image_path, '/');
-              $coverUrl = Str::startsWith($path, 'demo/') 
-                  ? asset($path)  // served from /public/demo/... (seedinimui)
-                  : asset('storage/'.$path);
-          @endphp
-          <img src="{{ $coverUrl }}" alt="" class="w-full rounded-2xl mb-6 object-cover">
-        @endif
+        <div class="flex flex-wrap gap-2">
+            @foreach($tags as $tag)
+                <label class="flex items-center gap-1 text-sm">
+                    <input
+                        type="checkbox"
+                        name="tags[]"
+                        value="{{ $tag->id }}"
+                        @checked(in_array($tag->id, old('tags', $story->tags->pluck('id')->toArray())))
+                        class="rounded border-stone-300"
+                    >
+                    <span>{{ $tag->name }}</span>
+                </label>
+            @endforeach
+        </div>
 
-        <input type="file" name="cover" accept="image/*" class="block w-full cursor-pointer">
-        <p class="text-xs text-stone-500 mt-1">Jei pasirinksite naują, senasis viršelis bus pakeistas. PNG/JPG, iki 8 MB.</p>
-        @error('cover') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+        @error('tags')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
       </div>
+
+
 
       <div>
         <label class="block text-sm font-medium mb-2">Galerija</label>

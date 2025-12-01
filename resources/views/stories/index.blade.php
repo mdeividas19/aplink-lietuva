@@ -14,6 +14,7 @@
             </select>
         </form>
       </div>
+
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @foreach($stories as $story)
           <a href="{{ route('stories.show', $story) }}" class="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-200">
@@ -47,6 +48,26 @@
                 {{ $story->excerpt ?? Str::limit(strip_tags($story->body), 120) }}
               </p>
 
+              @if($story->tags->isNotEmpty())
+                @if($story->tags->count())
+                    <div class="mt-3 flex flex-wrap gap-1.5">
+
+                        @foreach($story->tags->take(3) as $tag)
+                            <span class="px-2 py-0.5 text-xs bg-stone-200 text-stone-700 rounded-full whitespace-nowrap">
+                                {{ $tag->name }}
+                            </span>
+                        @endforeach
+
+                        @if($story->tags->count() > 3)
+                            <span class="px-2 py-0.5 text-xs bg-stone-300 text-stone-600 rounded-full whitespace-nowrap">
+                                +{{ $story->tags->count() - 3 }}
+                            </span>
+                        @endif
+
+                    </div>
+                @endif
+              @endif
+
               <div class="mt-3 text-xs text-stone-500 flex justify-between items-center">
                 <span>{{ optional($story->user)->name ?? 'Autorius' }}</span>
                 <div class="flex items-center gap-3">
@@ -64,13 +85,13 @@
                     </span>
                     <span class="flex items-center gap-1">
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M2.25 12C3.5 7.5 7.5 4.5 12 4.5s8.5 3 9.75 7.5c-1.25 4.5-5.25 7.5-9.75 7.5s-8.5-3-9.75-7.5zM12 15a3 3 0 100-6 3 3 0 000 6z"/>
                       </svg>
                       {{ $story->views_count }}
                     </span>
                   </div>
-              </div>   
+              </div>
             </div>
           </a>
         @endforeach
