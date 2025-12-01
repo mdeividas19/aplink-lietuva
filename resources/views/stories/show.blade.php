@@ -72,14 +72,15 @@
         @endif
 
         <div class="mt-8 flex items-center gap-3">
-            @if(auth()->id() === $story->user_id)
+            @can('edit-story', $story)
                 <a href="{{ route('stories.edit', $story) }}" class="px-3 py-2 text-sm rounded-md border border-stone-300">Redaguoti</a>
-
+            @endcan
+            @can('delete-story', $story)
                 <form method="POST" action="{{ route('stories.destroy', $story) }}" onsubmit="return confirm('Ištrinti istoriją?')">
                     @csrf @method('DELETE')
                     <button class="px-3 py-2 text-sm rounded-md border border-stone-300">Ištrinti</button>
                 </form>
-            @endif
+            @endcan
         </div>
     </div>
 

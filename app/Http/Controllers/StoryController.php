@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class StoryController extends Controller
 {
@@ -30,6 +31,7 @@ class StoryController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('create-story')) { abort(403); }
         return view('stories.create');
     }
 
@@ -38,6 +40,8 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('create-story')) { abort(403); }
+
         $data = $request->validate([
             'title'   => ['required','string','max:140'],
             'body'    => ['required','string'],
@@ -101,6 +105,7 @@ class StoryController extends Controller
      */
     public function edit(Story $story)
     {
+        if (! Gate::allows('edit-story', $story)) { abort(403); }
         return view('stories.edit', compact('story'));
     }
 
@@ -109,6 +114,8 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
+        if (! Gate::allows('edit-story', $story)) { abort(403); }
+
         $data = $request->validate([
             'title'   => ['required','string','max:140'],
             'body'    => ['required','string'],
@@ -139,6 +146,7 @@ class StoryController extends Controller
      */
     public function destroy(Story $story)
     {
+        if (! Gate::allows('delete-story', $story)) { abort(403); }
         $story->delete();
         return redirect()->route('stories.index');
     }

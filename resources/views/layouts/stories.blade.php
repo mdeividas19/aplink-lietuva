@@ -17,16 +17,18 @@
         <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
             <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
                 <div class="text-2xl font-semibold font-serif">
-                    <a href="{{ route('stories.index') }}" class="hover:underline">Istorijos</a>
-                    <span class="text-stone-400 mx-1">|</span>
                     <a href="{{ route('main') }}" class="hover:underline">Aplink Lietuva</a>
+                    <span class="text-stone-400 mx-1">|</span>
+                    <a href="{{ route('stories.index') }}" class="hover:underline">Istorijos</a>
                 </div>
                 <nav class="flex items-center gap-3 text-sm">
                     @auth
-                        <a href="{{ route('stories.create') }}"
-                        class="px-3 py-1.5 rounded-full bg-stone-900 text-white hover:opacity-90">
-                            Nauja istorija
-                        </a>
+                        @can('create-story')
+                            <a href="{{ route('stories.create') }}"
+                            class="px-3 py-1.5 rounded-full bg-stone-900 text-white hover:opacity-90">
+                                Nauja istorija
+                            </a>
+                        @endcan
 
                         <a href="{{ route('profile.edit') }}"
                         class="px-3 py-1.5 rounded-md border border-stone-300 hover:bg-stone-50">
