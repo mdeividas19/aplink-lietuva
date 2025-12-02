@@ -25,6 +25,30 @@
             </div>
         @endif
 
+        @php
+            $url = urlencode(route('stories.show', $story));
+            $text = urlencode($story->title);
+        @endphp
+        <div class="flex items-center gap-4 mt-4 mb-6">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}"
+            target="_blank"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.1 2 .1v2.2h-1.1c-1.1 0-1.4.7-1.4 1.3V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+                </svg>
+                Dalintis Facebook
+            </a>
+
+            <a href="https://twitter.com/intent/tweet?url={{ $url }}&text={{ $text }}"
+            target="_blank"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black text-white hover:bg-stone-800 transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 1200 1227">
+                    <path d="M714 519L1160 0H1017L673 395 429 0H0L461 638 0 1226H143L506 805 771 1226H1200z"/>
+                </svg>
+                Dalintis X(Twitter)
+            </a>
+        </div>
+
         <div
             x-data="{
                 liked: {{ auth()->check() && $story->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }},
