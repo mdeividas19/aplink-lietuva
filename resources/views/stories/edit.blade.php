@@ -83,6 +83,12 @@
         @error('gallery.*') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
       </div>
 
+      <label class="block text-sm font-medium mb-1">Platuma (latitude)</label>
+      <input name="latitude" value="{{ old('latitude', $story->latitude) }}">
+
+      <label class="block text-sm font-medium mb-1 mt-3">Ilguma (longitude)</label>
+      <input name="longitude" value="{{ old('longitude', $story->longitude) }}">
+
       <div class="flex items-center gap-3">
         <button class="px-4 py-2 rounded-md bg-stone-900 text-white">Išsaugoti</button>
         <a href="{{ route('stories.show', $story) }}" class="text-sm text-stone-600 hover:underline">Atšaukti</a>

@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\StoryMapController;
 use App\Http\Controllers\StoryLikeController;
 use App\Http\Controllers\StoryCommentController;
 use App\Http\Controllers\ProfileController;
@@ -16,6 +17,7 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::resource('stories', StoryController::class);
+Route::get('/stories/map/map', [StoryMapController::class, 'index'])->name('stories.map');
 
 Route::resource('map', MapController::class);
 

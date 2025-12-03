@@ -68,6 +68,12 @@
             {!! nl2br(e($story->body)) !!}
         </div>
 
+        @if($story->latitude && $story->longitude)
+            <h2 class="text-xl font-serif mt-10 mb-3">Istorijos vieta</h2>
+
+            <div id="story-map" class="w-full h-64 rounded-xl mb-6"></div>
+        @endif
+
         @if($story->images && $story->images->count())
             <h2 class="text-xl font-serif mt-10 mb-3">Nuotraukų galerija</h2>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -116,4 +122,25 @@
 
         <div class="mt-8">{{ $comments->links() }}</div>
     </div>
+
+    @if($story->latitude && $story->longitude)
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var map = L.map('story-map').setView(
+                    [{{ $story->latitude }}, {{ $story->longitude }}],
+                    12
+                );
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+
+                L.marker([{{ $story->latitude }}, {{ $story->longitude }}]).addTo(map);
+            });
+        </script>
+    @endif
 </x-stories-layout>

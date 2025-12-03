@@ -22,6 +22,7 @@
                     <a href="{{ route('stories.index') }}" class="hover:underline">Istorijos</a>
                 </div>
                 <nav class="flex items-center gap-3 text-sm">
+                    <a href="{{ route('stories.map') }}">Istorijų žemėlapis</a>
                     @auth
                         @can('create-story')
                             <a href="{{ route('stories.create') }}"
