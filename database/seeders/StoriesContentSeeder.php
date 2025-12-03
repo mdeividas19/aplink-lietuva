@@ -4,50 +4,68 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Story;
-use App\Models\StoryImage;
 use App\Models\User;
+use App\Models\Tag;
 
 class StoriesContentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+  public function run(): void
     {
+        DB::table('story_images')->truncate();
+        DB::table('story_tag')->truncate();
+        DB::table('stories')->truncate();
+
         $user = User::first();
 
-        $story1 = Story::create([
-            'user_id'          => $user->id,
-            'title'            => 'Istorijos pavadinimas',
-            'body'             => fake()->paragraphs(5, true),
-            'cover_image_path' => 'demo/stories/covers/cover1.jpg',
-        ]);
+        $covers = [
+            'demo/stories/covers/cover1.jpg',
+            'demo/stories/covers/cover2.jpeg',
+            'demo/stories/covers/cover3.jpeg',
+        ];
 
-        $story2 = Story::create([
-            'user_id'          => $user->id,
-            'title'            => 'Istorijos pavadinimas',
-            'body'             => fake()->paragraphs(3, true),
-            'cover_image_path' => 'demo/stories/covers/cover2.jpeg',
-        ]);
+        $galleryPhotos = [
+            'demo/stories/gallery/photo1.jpg',
+            'demo/stories/gallery/photo2.jpg',
+            'demo/stories/gallery/photo3.jpg',
+            'demo/stories/gallery/photo4.jpg',
+            'demo/stories/gallery/photo5.jpg',
+        ];
 
-        $story3 = Story::create([
-            'user_id'          => $user->id,
-            'title'            => 'Istorijos pavadinimas',
-            'body'             => fake()->paragraphs(7, true),
-            'cover_image_path' => 'demo/stories/covers/cover3.jpeg',
-        ]);
+        $tags = Tag::pluck('id')->toArray();
 
-        $story1->images()->createMany([
-            ['path' => 'demo/stories/gallery/photo1.jpg', 'order' => 0],
-            ['path' => 'demo/stories/gallery/photo2.jpg', 'order' => 1],
-        ]);
+        $count = 20;
 
-        $story2->images()->createMany([
-            ['path' => 'demo/stories/gallery/photo3.jpg', 'order' => 0],
-            ['path' => 'demo/stories/gallery/photo4.jpg', 'order' => 1],
-            ['path' => 'demo/stories/gallery/photo5.jpg', 'order' => 2],
-        ]);
+        for ($i = 0; $i < $count; $i++) {
+
+            $lat = fake()->latitude(54.0, 57.0);
+            $lng = fake()->longitude(21.0, 27.0);
+
+            $story = Story::create([
+                'user_id'          => $user->id,
+                'title'            => 'Istorijos pavadinimas ' . ($i + 1),
+                'body'             => fake()->paragraphs(rand(4, 10), true),
+                'cover_image_path' => fake()->randomElement($covers),
+                'latitude'         => $lat,
+                'longitude'        => $lng,
+            ]);
+
+            if (!empty($tags)) {
+                $story->tags()->sync(fake()->randomElements($tags, rand(1, 3)));
+            }
+
+            $galleryCount = rand(2, 5);
+            for ($g = 0; $g < $galleryCount; $g++) {
+                $story->images()->create([
+                    'path'  => fake()->randomElement($galleryPhotos),
+                    'order' => $g,
+                ]);
+            }
+        }
     }
 }

@@ -52,6 +52,8 @@ class StoryController extends Controller
             'body'    => ['required','string'],
             'cover'   => ['nullable','image','max:8192'],        // 8MB
             'gallery.*' => ['nullable','image','max:8192'],
+            'latitude'   => ['nullable','numeric','between:-90,90'],
+            'longitude'  => ['nullable','numeric','between:-180,180'],
         ]);
 
         $coverPath = null;
@@ -64,6 +66,8 @@ class StoryController extends Controller
             'title'            => $data['title'],
             'body'             => $data['body'],
             'cover_image_path' => $coverPath,
+            'latitude'         => $request->latitude,
+            'longitude'        => $request->longitude,
         ]);
 
         if ($request->filled('tags')) {
@@ -131,14 +135,18 @@ class StoryController extends Controller
             'body'    => ['required','string'],
             'cover'   => ['nullable','image','max:8192'],
             'gallery.*' => ['nullable','image','max:8192'],
+            'latitude'   => ['nullable','numeric','between:-90,90'],
+            'longitude'  => ['nullable','numeric','between:-180,180'],
         ]);
 
         if ($request->hasFile('cover')) {
             $story->cover_image_path = $request->file('cover')->store('stories/covers', 'public');
         }
 
-        $story->title = $data['title'];
-        $story->body  = $data['body'];
+        $story->title     = $data['title'];
+        $story->body      = $data['body'];
+        $story->latitude  = $request->latitude;
+        $story->longitude = $request->longitude;
         $story->save();
 
         if ($request->hasFile('gallery')) {

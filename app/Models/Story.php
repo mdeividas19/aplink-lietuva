@@ -9,7 +9,7 @@ class Story extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'title', 'body', 'cover_image_path'];
+    protected $fillable = ['user_id', 'title', 'body', 'cover_image_path', 'latitude', 'longitude'];
 
     public function user() { return $this->belongsTo(User::class); }
 
