@@ -1,4 +1,5 @@
 <x-app-layout>
+    <div data-page="{{ Route::currentRouteName() }}">
     <div class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -105,7 +106,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     @vite('resources/js/locations.js')
 
 </x-app-layout>

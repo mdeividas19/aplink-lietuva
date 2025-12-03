@@ -152,7 +152,7 @@ class LocationsController extends Controller
     public function storeFavorite(Locations $location)
     {
         auth()->user()->favoriteLocations()->syncWithoutDetaching([$location->id]);
-        return response()->noContent(); // 204 No Content
+        return response()->noContent();
     }
 
     public function destroyFavorite(Locations $location)
@@ -164,38 +164,26 @@ class LocationsController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user) {
-            abort(403, 'You must be logged in to see liked locations.');
-        }
+        if (!$user) {return redirect()->route('dashboard');}
 
-        // Get IDs of locations the user has favorited
         $favoriteLocationIds = $user->favoriteLocations()->pluck('location_id');
 
-        // Fetch those locations and eager load the first image
-        $locations = \App\Models\Locations::with('firstImage')
-            ->whereIn('id', $favoriteLocationIds)
-            ->orderBy('name')
-            ->get();
+        $locations = Locations::with('firstImage')->whereIn('id', $favoriteLocationIds)
+        ->orderBy('name')->get();
 
-        // Group by first letter
         $grouped = $locations->groupBy(function($location) {
-            return strtoupper(mb_substr($location->name, 0, 1));
+        return strtoupper(mb_substr($location->name, 0, 1));
         });
 
-        // Fetch all cities for filtering dropdown (optional)
         $cities = City::orderBy('name')->get();
 
-        return view('locations.index', [
-            'grouped' => $grouped,
-            'cities' => $cities,
-            'showingFavorites' => true // optional flag if you want special behavior in the Blade
-        ]);
+        return view('locations.index', ['grouped' => $grouped, 'cities' => $cities, 'showingFavorites' => true]);
     }
-    
+
     public function getRandomLocation()
     {
         $randomLocation = Locations::inRandomOrder()->first();
-    
+
         return response()->json([
             'id' => $randomLocation->id,
             'name' => $randomLocation->name,
@@ -203,5 +191,5 @@ class LocationsController extends Controller
             'image_path' => $randomLocation->images->first() ? '/storage/location_images/'.$randomLocation->images->first()->image_path : 'img/placeholder.png'
         ]);
     }
-    
+
 }

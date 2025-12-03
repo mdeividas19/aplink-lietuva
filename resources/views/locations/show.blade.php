@@ -2,13 +2,37 @@
     <div class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4">
+                <div class="p-4 flex flex-wrap items-center justify-between gap-4">
                     <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 bg-forest-green-600 hover:bg-forest-green-700 text-white font-semibold rounded-lg shadow transition-colors duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
                         Atgal
                     </a>
+                    <div class="flex flex-wrap items-center gap-3">
+                        @php
+                            $url  = urlencode(route('locations.show', $location));
+                            $text = urlencode($location->title . ' – ' . config('app.name'));
+                        @endphp
+
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}"
+                           target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1877f2] hover:bg-[#166fe5] text-white font-medium text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.1 2 .1v2.2h-1.1c-1.1 0-1.4.7-1.4 1.3V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+                            </svg>
+                            Dalintis Facebook
+                        </a>
+
+                        <a href="https://twitter.com/intent/tweet?url={{ $url }}&text={{ $text }}"
+                           target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 px-4 py-2.5 bg-black hover:bg-gray-900 text-white font-medium text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            Dalintis Twitter
+                        </a>
+                    </div>
                 </div>
                 <div class="p-8 text-center">
                     <h1 class="text-5xl font-serif mb-2 text-forest-green-700">

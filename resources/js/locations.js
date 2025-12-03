@@ -186,31 +186,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     //Pamėgimo mygtuko js
-    document.querySelectorAll('.heart-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const locationId = this.dataset.locationId;
-            let favorited = this.dataset.favorited === '1';
-            const method = favorited ? 'DELETE' : 'POST';
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.heart-btn');
+        if (!button) return;
 
-            fetch(`/locations/${locationId}/favorite`, {
-                method: method,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json'}}).then(res => {
-                    if (res.ok) {
-                        favorited = !favorited;
-                        this.dataset.favorited = favorited ? '1' : '0';
-                        const icon = this.querySelector('.heart-icon');
-                        icon.setAttribute('fill', favorited ? 'currentColor' : 'none');
+        const locationId = button.dataset.locationId;
+        let favorited = button.dataset.favorited === '1';
+        const method = favorited ? 'DELETE' : 'POST';
 
-                        if (!favorited) {
-                            const card = this.closest('.flex.flex-col.relative');
-                            const letterSection = card.closest('.letter-section');
-                            card.remove();
+        fetch(`/locations/${locationId}/favorite`, {
+            method: method,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            }
+        }).then(res => {
+            if (res.ok) {
+                favorited = !favorited;
+                button.dataset.favorited = favorited ? '1' : '0';
+                const icon = button.querySelector('.heart-icon');
+                icon.setAttribute('fill', favorited ? 'currentColor' : 'none');
 
-                            if (letterSection.querySelectorAll('.flex.flex-col.relative').length === 0) {
-                                letterSection.remove();}}}
-
-                    else {console.error('Failed to toggle favorite');}}).catch(err => console.error(err));});
+                const page = document.querySelector('[data-page]').dataset.page;
+                if (page === 'locations.favorites' && !favorited) {
+                    const card = button.closest('.flex.flex-col.relative');
+                    const section = card.closest('.letter-section');
+                    card.remove();
+                    if (section.querySelectorAll('.flex.flex-col.relative').length === 0) {
+                        section.remove();
+                    }
+                }
+            } else {
+                console.error('Failed to toggle favorite');
+            }
+        }).catch(err => console.error(err));
     });
 });
