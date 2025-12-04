@@ -14,7 +14,19 @@
                             $url  = urlencode(route('locations.show', $location));
                             $text = urlencode($location->title . ' – ' . config('app.name'));
                         @endphp
-
+                <button type="button"
+                        class="heart-btn group p-2.5 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg hover:scale-110 transition-all duration-200"
+                        data-location-id="{{ $location->id }}"
+                        data-favorited="{{ auth()->user()->favoriteLocations()->where('location_id', $location->id)->exists() ? '1' : '0' }}">
+                    <svg class="w-6 h-6 heart-icon text-red-500" viewBox="0 0 24 24"
+                         fill="{{ auth()->user()->favoriteLocations()->where('location_id', $location->id)->exists() ? 'currentColor' : 'none' }}"
+                         stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733C11.597 4.876
+                 9.935 3.75 8 3.75 5.411 3.75 3.312 5.765 3.312 8.25c0 7.22 8.688 11.25
+                 8.688 11.25s8.688-4.03 8.688-11.25z"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}"
                            target="_blank" rel="noopener"
                            class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1877f2] hover:bg-[#166fe5] text-white font-medium text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
@@ -148,8 +160,8 @@
             </div>
         </div>
     </div>
+    @vite('resources/js/locations.js')
 </x-app-layout>
-
 <script>
     const images = [
         @foreach($location->images->skip(1) as $img)
