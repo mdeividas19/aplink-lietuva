@@ -16,6 +16,7 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::delete('/stories/{story}/images/{image}', [StoryController::class, 'destroyImage'])->name('stories.images.destroy');
 Route::resource('stories', StoryController::class);
 Route::get('/stories/map/map', [StoryMapController::class, 'index'])->name('stories.map');
 
