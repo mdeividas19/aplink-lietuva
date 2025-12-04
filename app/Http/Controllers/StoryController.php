@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Story;
+use App\Models\StoryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class StoryController extends Controller
 {
@@ -171,5 +173,19 @@ class StoryController extends Controller
         if (! Gate::allows('delete-story', $story)) { abort(403); }
         $story->delete();
         return redirect()->route('stories.index');
+    }
+    public function destroyImage(Story $story, StoryImage $image)
+    {
+        if ($image->story_id !== $story->id) {
+            abort(403);
+        }
+
+        if (Storage::disk('public')->exists($image->path)) {
+            Storage::disk('public')->delete($image->path);
+        }
+
+        $image->delete();
+
+        return redirect()->route('stories.edit', $story);
     }
 }
