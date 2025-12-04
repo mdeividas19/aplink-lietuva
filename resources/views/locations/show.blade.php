@@ -14,6 +14,7 @@
                             $url  = urlencode(route('locations.show', $location));
                             $text = urlencode($location->title . ' – ' . config('app.name'));
                         @endphp
+                        @auth
                 <button type="button"
                         class="heart-btn group p-2.5 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg hover:scale-110 transition-all duration-200"
                         data-location-id="{{ $location->id }}"
@@ -27,6 +28,7 @@
                               stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
+                        @endauth
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ $url }}"
                            target="_blank" rel="noopener"
                            class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#1877f2] hover:bg-[#166fe5] text-white font-medium text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
