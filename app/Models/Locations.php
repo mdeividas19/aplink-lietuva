@@ -32,4 +32,11 @@ class Locations extends Model
     {
         return $this->belongsToMany(User::class, 'favorite_user_locations', 'location_id', 'user_id')->withTimestamps();
     }
+    public function reviews(){
+        return $this->hasMany(Review::class, 'location_id');
+    }
+    public function getAverageRatingAttribute()
+{
+    return $this->reviews()->avg('rating');
+}
 }

@@ -24,6 +24,7 @@ class LocationsController extends Controller
     public function show($id)
     {
         $location = Locations::findOrFail($id);
+        $location->load(['reviews.user']);
         return view('locations.show', compact('location'));
     }
     public function create()

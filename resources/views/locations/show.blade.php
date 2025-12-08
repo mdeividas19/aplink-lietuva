@@ -158,6 +158,105 @@
                             </div>
                         </div>
                     @endif
+
+                    <div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Atsiliepimai</h2>
+
+    {{-- Flash message --}}
+    @if (session('success'))
+        <div class="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- Existing reviews --}}
+    @if ($location->reviews->count())
+        <div class="mb-4 flex items-center gap-2">
+            <span class="text-lg font-semibold">
+                {{ number_format($location->reviews->avg('rating'), 1) }}/5
+            </span>
+            <span class="text-sm text-gray-500">
+                ({{ $location->reviews->count() }}
+                {{ $location->reviews->count() === 1 ? 'atsiliepimas' : 'atsiliepimai' }})
+            </span>
+        </div>
+
+        <div class="space-y-4 mb-8">
+            @foreach ($location->reviews as $review)
+                <div class="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+                    <div class="mb-1 flex items-center justify-between">
+                        <div class="text-sm font-semibold">
+                            {{ $review->user->name ?? 'Anonimas' }}
+                        </div>
+                        <div class="text-sm">
+                            {{ $review->rating }}/5
+                        </div>
+                    </div>
+
+                    @if ($review->comment)
+                        <p class="text-sm text-gray-700">
+                            {{ $review->comment }}
+                        </p>
+                    @endif
+
+                    <p class="mt-1 text-xs text-gray-400">
+                        {{ $review->created_at->diffForHumans() }}
+                    </p>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="mb-6 text-sm text-gray-500">
+            Šiuo metu atsiliepimų nėra. Būk pirmas!
+        </p>
+    @endif
+
+    {{-- New review form --}}
+    @auth
+        <form action="{{ route('locations.reviews.store', $location) }}" method="POST" class="space-y-4">
+            @csrf
+
+            <div>
+                <label for="rating" class="mb-1 block text-sm font-medium">
+                    Įvertinimas
+                </label>
+                <select id="rating" name="rating"
+                        class="w-full rounded border-gray-300 text-sm shadow-sm">
+                    @for ($i = 5; $i >= 1; $i--)
+                        <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>
+                            {{ $i }} {{ $i === 1 ? 'žvaigždutė' : 'žvaigždutės' }}
+                        </option>
+                    @endfor
+                </select>
+                @error('rating')
+                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label for="comment" class="mb-1 block text-sm font-medium">
+                    Komentaras
+                </label>
+                <textarea id="comment" name="comment" rows="3"
+                          class="w-full rounded border-gray-300 text-sm shadow-sm">{{ old('comment') }}</textarea>
+                @error('comment')
+                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button type="submit"
+                    class="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+                Pateikti atsiliepimą
+            </button>
+        </form>
+    @else
+        <p class="text-sm text-gray-500">
+            <a href="{{ route('login') }}" class="text-blue-600 underline">
+                Prisijunk
+            </a> norėdamas parašyti atsiliepimą.
+        </p>
+    @endauth
+</div>
                 </div>
             </div>
         </div>

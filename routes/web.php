@@ -9,6 +9,7 @@ use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', [CityController::class, 'index'])->name('main');
 
@@ -51,6 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/comments/{comment}', [StoryCommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [StoryCommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/stories/{story}/like', [StoryLikeController::class, 'toggle'])->name('stories.like.toggle');
+
+    Route::post('/locations/{location}/reviews', [ReviewController::class, 'store'])
+    ->name('locations.reviews.store');
 });
 
 Route::middleware('can:isAdmin')->group(function(){
