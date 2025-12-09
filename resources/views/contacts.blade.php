@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="relative overflow-hidden bg-gradient-to-br from-baltic-blue to-forest-green py-24">
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
                 Kontaktai
             </h1>
         </div>
@@ -10,7 +10,7 @@
     <div class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-forest-green mb-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-forest-green mb-4">
                     Susisiekite Su Mumis
                 </h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    <div class="py-20 bg-white">
+    <div class="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12">
                 <div class="bg-gray-50 rounded-2xl p-8">

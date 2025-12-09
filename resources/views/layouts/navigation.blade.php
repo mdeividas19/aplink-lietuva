@@ -4,7 +4,7 @@
      class="fixed w-full top-0 z-50 transition-all duration-300">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
+        <div class="flex justify-between items-center h-16 md:h-20">
 
             <!-- Logo -->
             <div class="flex-shrink-0">
@@ -15,7 +15,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                     </div>
-                    <span class="text-xl font-bold bg-gradient-to-r from-forest-green to-baltic-blue bg-clip-text text-transparent">
+                    <span class="text-lg sm:text-xl font-bold bg-gradient-to-r from-forest-green to-baltic-blue bg-clip-text text-transparent">
+
                         Aplink Lietuvą
                     </span>
                 </a>

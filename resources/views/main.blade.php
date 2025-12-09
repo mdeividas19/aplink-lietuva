@@ -5,16 +5,19 @@
             <img class="w-full h-full object-cover" src="img/vilnius-main.jpg" alt="Landscape of Lithuania">
             <div class="absolute inset-0 bg-gradient-to-br from-baltic-blue via-baltic-blue/80 to-forest-green/70" aria-hidden="true"></div>
         </div>
-        <div class="relative max-w-7xl mx-auto py-32 px-4 sm:py-40 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 animate-fade-in">
+        <div class="relative max-w-7xl mx-auto py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4 sm:mb-6 animate-fade-in">
+
                     Aplink Lietuvą
                 </h1>
-                <p class="mt-6 text-xl md:text-2xl text-amber-50 max-w-3xl mx-auto leading-relaxed">
+                <p class="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl text-amber-50 max-w-3xl mx-auto leading-relaxed">
+
                     Interaktyvus gidas po gražiausias Lietuvos vietas
                 </p>
-                <div class="mt-10">
-                    <a href="#cities" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-amber-500 text-white hover:bg-amber-600 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+                <div class="mt-8 sm:mt-10">
+    <a href="#cities"
+       class="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full bg-amber-500 text-white hover:bg-amber-600 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
                         Pradėti kelionę
                         <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -46,7 +49,7 @@
             </div>
 
             @if($cities->isNotEmpty())
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     @foreach($cities as $city)
                         <a href="{{ route('cities.show', $city) }}" 
                            class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
@@ -103,15 +106,18 @@
                         <p id="random-location-description" class="text-lg text-amber-50 leading-relaxed mb-8"> <!--amber text color? !-->
                             {{ $location->description }}
                         </p>
-                        <div class="flex space-x-4">
-                            <a id="random-location-view-more-btn" href="locations/{{ $location->id }}" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                                Žiūrėti Daugiau
+                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+    <a id="random-location-view-more-btn"
+       href="locations/{{ $location->id }}"
+       class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+        Žiūrėti Daugiau
                                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
                             </a>
-                            <button id="random-location-other-location-btn" class="inline-flex items-center px-8 py-4 text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                                Kita Vieta
+                            <button id="random-location-other-location-btn"
+            class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full bg-white text-forest-green hover:bg-amber-50 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
+        Kita Vieta
                                 <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h2.586a1 1 0 0 1 .707.293l8.414 8.414M20 20h-2.586a1 1 0 0 1-.707-.293L8.293 11.293M20 4l-4 4m0-4l4 4M4 20l4-4m0 4l-4-4"/>
                                 </svg>
