@@ -12,7 +12,7 @@
                                 Users
                             </a>
                             <a href='{{ route("admin.reviews") }}' class="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-amber-50 transition">
-                               Reviews 
+                               Reviews
                             </a>
                             <a href='{{ route("admin.stories") }}'class="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-amber-50 transition">
                                 Stories
@@ -26,7 +26,7 @@
             <div class="col-span-5 md:col-span-4">
                 <div class="bg-white rounded-2xl shadow-lg ring-1 ring-amber-100 overflow-hidden">
                     <div class="p-5 border-b border-gray-100">
-                        <h3 class="text-lg font-bold text-forest-green-700">Users</h3>
+                        <h3 class="text-lg font-bold text-forest-green-700">Reviews</h3>
                     </div>
 
                     <div class="p-5 overflow-x-auto">
@@ -34,26 +34,32 @@
                             <thead>
                                 <tr class="text-left text-baltic-blue-800">
                                     <th class="px-4 py-3 font-semibold bg-baltic-blue-50 rounded-l-lg">ID</th>
-                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Username</th>
-                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Email</th>
-                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Role</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">User ID</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Title</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Body</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Latitude</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Longitude</th>
+                                    <th class="px-4 py-3 font-semibold bg-baltic-blue-50">Created at</th>
                                     <th class="px-4 py-3 font-semibold bg-baltic-blue-50 rounded-r-lg"></th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
-                                @foreach ($users as $user)
+                                @foreach ($stories as $story)
                                 <tr class="hover:bg-amber-50">
-                                    <td class="px-4 py-3 text-gray-700">{{$user->id}}</td>
-                                    <td class="px-4 py-3 text-gray-900 font-medium">{{$user->name}}</td>
-                                    <td class="px-4 py-3 text-gray-700">{{$user->email}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->id}}</td>
+                                    <td class="px-4 py-3 text-gray-900 font-medium">{{$story->user_id}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->title}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->body}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->latitude}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->longtitude}}</td>
+                                    <td class="px-4 py-3 text-gray-700">{{$story->created_at}}</td>
                                     <td class="px-4 py-3">
                                         <span class="inline-flex items-center rounded-full bg-forest-green-50 text-forest-green-700 px-2.5 py-0.5 text-xs font-semibold">
-                                            {{$user->role}}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <a
-                                            href='{{ route("admin.editUser", $user->id) }}'
+                                            href='{{ route("admin.editStory", $story->id) }}'
                                             class="inline-flex items-center rounded-xl bg-amber-500 px-3 py-1.5 text-white font-medium hover:bg-amber-600 focus:outline-none focus:ring-4 focus:ring-amber-200 transition"
                                         >
                                             Edit
@@ -63,12 +69,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
-                        {{-- Optional pill legend --}}
-                        <div class="mt-4 text-xs text-gray-500">
-                            <span class="inline-flex items-center rounded-full bg-forest-green-50 text-forest-green-700 px-2 py-0.5 font-semibold">Role</span>
-                            — skaitinė reikšmė jūsų DB.
-                        </div>
                     </div>
                 </div>
             </div>

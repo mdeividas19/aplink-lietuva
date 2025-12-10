@@ -59,8 +59,18 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('can:isAdmin')->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/user/{user}', [AdminController::class, 'editUser'])->name('admin.editUser');
-    Route::patch('/admin/user/{user}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+    Route::get('/admin/users/{user}', [AdminController::class, 'editUser'])->name('admin.editUser');
+    Route::patch('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+
+    Route::get('/admin/reviews', [AdminController::class, 'reviewIndex'])->name('admin.reviews');
+    Route::get('/admin/reviews/{review}', [AdminController::class, 'editReview'])->name('admin.editReview');
+    Route::patch('/admin/reviews/{review}', [AdminController::class, 'updateReview'])->name('admin.updateReview');
+
+    Route::get('/admin/stories', [AdminController::class, 'storyIndex'])->name('admin.stories');
+    Route::get('/admin/stories/{story}', [AdminController::class, 'editStory'])->name('admin.editStory');
+    Route::patch('/admin/stories/{story}', [AdminController::class, 'updateStory'])->name('admin.updateStory');
+
+
 });
 
 require __DIR__.'/auth.php';
